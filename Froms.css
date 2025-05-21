@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        /* Custom CSS Variables for Colors */
+        :root {
+            --primary: #6366F1;
+            --primary-light: #818CF8; 
+            --primary-dark: #4F46E5;
+            --secondary: #EC4899;
+            --secondary-light: #F472B6;
+            --accent: #10B981;
+            --accent-light: #D1FAE5;
+            --danger: #EF4444;
+            --danger-light: #FEE2E2;
+            --warning: #F59E0B;
+            --success: #10B981;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --gray: #6B7280;
+            --white: #FFFFFF;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #C7D2FE, #EEF2FF);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+            overflow: hidden;
+        }
+
+        .form-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            padding: 30px;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 16px;
+            opacity: 0.85;
+        }
+
+        .form-header::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(135deg, transparent 50%, var(--white) 50%);
+        }
+
+        .form-body {
+            padding: 40px 30px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            position: relative;
+            padding-top: 10px;
+        }
+
+        .section-title {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--primary);
+            color: var(--white);
+            font-size: 18px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        .form-group {
+            flex: 1 0 100%;
+            max-width: 100%;
+            padding: 0 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        @media (min-width: 576px) {
+            .form-group.col-2 {
+                flex: 1 0 50%;
+                max-width: 50%;
+            }
+
+            .form-group.col-3 {
+                flex: 1 0 33.333%;
+                max-width: 33.333%;
+            }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            transition: color 0.3s ease;
+            font-size: 15px;
+        }
+
+        .form-group label .required {
+            color: var(--secondary);
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--dark);
+            background-color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        /* Input focus state */
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Input hover state */
+        .form-control:hover:not(:focus):not(:disabled) {
+            border-color: var(--primary-light);
+            background-color: #F9FAFB;
+        }
+
+        /* Valid and invalid states */
+        .form-control:valid:not(:placeholder-shown) {
+            border-color: var(--success);
+            background-color: var(--accent-light);
+        }
+
+        .form-control:invalid:not(:placeholder-shown):not(:focus) {
+            border-color: var(--danger);
+            background-color: var(--danger-light);
+        }
+
+        /* Disabled state */
+        .form-control:disabled {
+            background-color: #F3F4F6;
+            border-color: #E5E7EB;
+            color: #9CA3AF;
+            cursor: not-allowed;
+        }
+
+        /* Custom select styling */
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236B7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 12L2 6h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        select.form-control:focus {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236366F1' viewBox='0 0 16 16'%3E%3Cpath d='M8 12L2 6h12z'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Radio Buttons */
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .radio-option label::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 2px solid #E5E7EB;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .radio-option input[type="radio"]:checked + label::before {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            box-shadow: inset 0 0 0 4px var(--white);
+        }
+
+        .radio-option input[type="radio"]:focus + label {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .radio-option:hover input[type="radio"]:not(:checked) + label {
+            border-color: var(--primary-light);
+        }
+
+        /* Custom Checkbox */
+        .checkbox-group {
+            margin-top: 10px;
+        }
+
+        .checkbox-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkbox-option label {
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .checkbox-option label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #E5E7EB;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+        .checkbox-option label::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            width: 6px;
+            height: 12px;
+            border: solid var(--white);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + label::before {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + label::after {
+            opacity: 1;
+        }
+
+        .checkbox-option input[type="checkbox"]:focus + label::before {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .checkbox-option:hover input[type="checkbox"]:not(:checked) + label::before {
+            border-color: var(--primary-light);
+        }
+
+        /* File upload styling */
+        .file-upload {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            border: 2px dashed #E5E7EB;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-light);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .file-upload p {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .upload-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .upload-icon::before {
+            content: "+";
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Form validation message */
+        .form-group .validation-message {
+            display: none;
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: 6px;
+        }
+
+        .form-control:invalid:not(:placeholder-shown) ~ .validation-message {
+            display: block;
+        }
+
+        /* Form footer and submit button */
+        .form-footer {
+            padding: 30px;
+            background-color: #F9FAFB;
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background-color: #F3F4F6;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #E5E7EB;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Help text */
+        .form-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .password-strength-bar {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 4px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .password-strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .password-strength.weak .password-strength-fill {
+            width: 33.33%;
+            background-color: var(--danger);
+        }
+
+        .password-strength.medium .password-strength-fill {
+            width: 66.66%;
+            background-color: var(--warning);
+        }
+
+        .password-strength.strong .password-strength-fill {
+            width: 100%;
+            background-color: var(--success);
+        }
+
+        input[type="password"]:not(:placeholder-shown) ~ .password-strength {
+            display: block;
+        }
+
+        /* Floating labels */
+        .form-floating {
+            position: relative;
+        }
+
+        .form-floating .form-control {
+            padding-top: 22px;
+            padding-bottom: 6px;
+        }
+
+        .form-floating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 14px 16px;
+            pointer-events: none;
+            border: 1px solid transparent;
+            transform-origin: 0 0;
+            transition: all 0.2s ease-out;
+            color: var(--gray);
+            font-weight: normal;
+        }
+
+        .form-floating .form-control:focus ~ label,
+        .form-floating .form-control:not(:placeholder-shown) ~ label {
+            transform: translate(0, -10px) scale(0.85);
+            color: var(--primary);
+            padding-left: 16px;
+            padding-top: 6px;
+        }
+
+        /* Conditional section based on selection */
+        .conditional-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .trigger:checked ~ .conditional-section {
+            max-height: 500px;
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            padding: 20px 30px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-step {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .progress-step.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Focus-within for form groups */
+        .form-group:focus-within label:not(.form-floating label) {
+            color: var(--primary);
+        }
+
+        /* Loading spinner for button */
+        .btn .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Form success message */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent-light);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .success-icon::before,
+        .success-icon::after {
+            content: '';
+            position: absolute;
+            background-color: var(--accent);
+        }
+
+        .success-icon::before {
+            width: 16px;
+            height: 32px;
+            transform: rotate(45deg);
+            right: 28px;
+            top: 22px;
+        }
+
+        .success-icon::after {
+            width: 16px;
+            height: 16px;
+            transform: rotate(45deg) translate(-16px, 0);
+            left: 44px;
+            top: 42px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Student Registration Form</h1>
+            <p>Fill out the form below to register for the new academic year</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-step active">Personal Info</div>
+                <div class="progress-step">Academic Details</div>
+                <div class="progress-step">Additional Info</div>
+                <div class="progress-step">Review & Submit</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%;"></div>
+            </div>
+        </div>
+
+        <form id="studentRegistrationForm">
+            <div class="form-body">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <div class="section-title">Personal Information</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                            <span class="validation-message">Please enter your first name</span>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                            <span class="validation-message">Please enter your last name</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="dob">Date of Birth <span class="required">*</span></label>
+                            <input type="date" class="form-control" id="dob" required>
+                            <span class="validation-message">Please enter a valid date of birth</span>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label>Gender <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="male" name="gender" value="male" required>
+                                    <label for="male">Male</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="female" name="gender" value="female">
+                                    <label for="female">Female</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="other" name="gender" value="other">
+                                    <label for="other">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                            <span class="validation-message">Please enter a valid email address</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" pattern="[0-9]{10}" required>
+                            <span class="form-text">Format: 10-digit number without spaces or dashes</span>
+                            <span class="validation-message">Please enter a valid 10-digit phone number</span>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label for="nationality">Nationality</label>
+                            <select class="form-control" id="nationality">
+                                <option value="" selected disabled>Select your nationality</option>
+                                <option value="usa">United States</option>
+                                <option value="canada">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="australia">Australia</option>
+                                <option value="india">India</option>
+                                <option value="china">China</option>
+                                <option value="japan">Japan</option>
+                                <option value="germany">Germany</option>
+                                <option value="france">France</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Address Section -->
+                <div class="form-section">
+                    <div class="section-title">Address Information</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Street Address <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="address" placeholder="Enter your street address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="city" placeholder="Enter your city" required>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label for="state">State/Province <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="state" placeholder="Enter your state or province" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="zipCode">Zip/Postal Code <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="zipCode" placeholder="Enter your zip code" required>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label for="country">Country <span class="required">*</span></label>
+                            <select class="form-control" id="country" required>
+                                <option value="" selected disabled>Select your country</option>
+                                <option value="usa">United States</option>
+                                <option value="canada">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="australia">Australia</option>
+                                <option value="india">India</option>
+                                <option value="china">China</option>
+                                <option value="japan">Japan</option>
+                                <option value="germany">Germany</option>
+                                <option value="france">France</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Academic Details Section -->
+                <div class="form-section">
+                    <div class="section-title">Academic Details</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="program">Program of Study <span class="required">*</span></label>
+                            <select class="form-control" id="program" required>
+                                <option value="" selected disabled>Select your program</option>
+                                <option value="computerScience">Computer Science</option>
+                                <option value="businessAdmin">Business Administration</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="medicine">Medicine</option>
+                                <option value="arts">Arts & Humanities</option>
+                                <option value="science">Science</option>
+                                <option value="law">Law</option>
+                                <option value="education">Education</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label for="admissionYear">Year of Admission <span class="required">*</span></label>
+                            <select class="form-control" id="admissionYear" required>
+                                <option value="" selected disabled>Select year</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-2">
+                            <label for="semester">Starting Semester <span class="required">*</span></label>
+                            <select class="form-control" id="semester" required>
+                                <option value="" selected disabled>Select semester</option>
+                                <option value="fall">Fall</option>
+                                <option value="spring">Spring</option>
+                                <option value="summer">Summer</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Previous Education</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="highSchool" name="previousEducation" value="highSchool" class="trigger">
+                                    <label for="highSchool">High School</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="associate" name="previousEducation" value="associate" class="trigger">
+                                    <label for="associate">Associate Degree</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="bachelor" name="previousEducation" value="bachelor" class="trigger">
+                                    <label for="bachelor">Bachelor's Degree</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="master" name="previousEducation" value="master" class="trigger">
+                                    <label for="master">Master's Degree</label>
+                                </div>
+                            </div>
+                            
+                            <div class="conditional-section">
+                                <div class="form-row" style="margin-top: 20px;">
+                                    <div class="form-group col-2">
+                                        <label for="institution">Previous Institution</label>
+                                        <input type="text" class="form-control" id="institution" placeholder="Enter name of previous institution">
+                                    </div>
+                                    
+                                    <div class="form-group col-2">
+                                        <label for="graduationYear">Year of Graduation</label>
+                                        <input type="number" class="form-control" id="graduationYear" placeholder="Year" min="1990" max="2025">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
